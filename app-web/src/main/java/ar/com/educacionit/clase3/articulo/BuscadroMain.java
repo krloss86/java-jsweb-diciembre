@@ -1,5 +1,7 @@
 package ar.com.educacionit.clase3.articulo;
 
+import ar.com.educacionit.clase4.BuscadorMusica;
+
 public class BuscadroMain {
 
 	public static void main(String[] args) {
@@ -9,7 +11,7 @@ public class BuscadroMain {
 		Buscador[] buscadores = new Buscador[2];
 		
 		//1 form
-		Buscador buscadorLibro = new BuscadorLibro(claveBusquedaUsurio);
+		Buscador buscadorLibro = new BuscadorMusica(claveBusquedaUsurio);
 		buscadores[0] = buscadorLibro;
 		
 		//2 forma

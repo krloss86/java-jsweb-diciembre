@@ -1,14 +1,18 @@
-package ar.com.educacionit.clase3.articulo;
+package ar.com.educacionit.clase4;
 
-public class BuscadorLibro extends Buscador {
+import ar.com.educacionit.clase3.articulo.Articulo;
+import ar.com.educacionit.clase3.articulo.Buscador;
+import ar.com.educacionit.clase3.articulo.Libro;
 
-	public BuscadorLibro(String claveBusqueda) {
+public class BuscadorPasatiempo extends Buscador {
+
+	public BuscadorPasatiempo(String claveBusqueda) {
 		super(claveBusqueda);
 	}
 
 	public void buscar() {
 		// select * from libro where titulo like '%this.claveBusqueda%' 
-		String sql = "select * from libro where titulo like %" +  this.getClaveBusqueda() + "%";
+		String sql = "select * from pasatiempo where titulo like %" +  this.getClaveBusqueda() + "%";
 		
 		System.out.println("Ejecutando sql:" + sql);
 		

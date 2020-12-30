@@ -7,7 +7,7 @@ public abstract class Buscador {
 	protected Articulo[] resultados;
 	
 	//metodo abstracto
-	protected abstract void buscar();
+	public abstract void buscar();
 	
 	//buscar por id
 	public Articulo buscarPorId(Long id) {

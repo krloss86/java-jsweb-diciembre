@@ -6,7 +6,7 @@ public class BuscadorPelicula extends Buscador {
 		super(claveBusqueda);
 	}
 
-	protected void buscar() {
+	public void buscar() {
 		// select * from libro where titulo like '%this.claveBusqueda%' 
 		String sql = "select * from pelicula where titulo like %" +  this.getClaveBusqueda() + "%";
 		
