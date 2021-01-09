@@ -39,10 +39,11 @@ public class ArrayListMain {
 		vectoInt =vectoIntAux;
 		
 		//arraylist
-		ArrayList<Integer> arrayInteger = new ArrayList<Integer>();
+		ArrayList<Integer> arrayInteger = new ArrayList<>();
 		arrayInteger.add(1);
 		arrayInteger.add(10);
 		arrayInteger.add(-5);
+		//arrayInteger.add(1.5);
 		
 		//recorre 
 		for(Integer aux : arrayInteger) {

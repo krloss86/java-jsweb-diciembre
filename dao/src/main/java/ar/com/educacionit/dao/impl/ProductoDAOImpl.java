@@ -1,5 +1,10 @@
 package ar.com.educacionit.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import ar.com.educacionit.dao.AdministradorDeConexiones;
 import ar.com.educacionit.dao.ProductoDAO;
 import ar.com.educacionit.dao.connection.Connection;
 import ar.com.educacionit.dao.connection.ConnectionUtils;
@@ -53,6 +58,38 @@ public class ProductoDAOImpl implements ProductoDAO {
 			}			
 		}
 		
+	}
+
+	@Override
+	public ArrayList<Producto> findAll() throws GenericException {
+		
+		ArrayList<Producto> productos = new ArrayList<Producto>();
+		
+		//try-catch with resources
+		try (java.sql.Connection con = AdministradorDeConexiones.obtenerConexion()) {
+						
+			//sql
+			Statement st = con.createStatement();
+			
+			//obtengo los resultados
+			ResultSet rs = st.executeQuery("SELECT * FROM productos");
+			
+			while(rs.next()) {
+				Long id = rs.getLong(1);
+				String titulo = rs.getString(2);
+				Float precio = rs.getFloat(3);
+				String codigo = rs.getString(4);
+				Long tipoProductgo = rs.getLong(5);
+				
+				Producto producto = new Producto(titulo, id, precio, codigo);
+				productos.add(producto);
+				//agregar a una lista o vector!!!
+			}			
+		}catch (Exception e) {
+			throw new GenericException("No se ha podido obtener la lista de productos", e);
+		}
+		
+		return productos;
 	}
 
 	

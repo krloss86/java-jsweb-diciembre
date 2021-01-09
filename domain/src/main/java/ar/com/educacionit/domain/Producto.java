@@ -55,5 +55,14 @@ public class Producto {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
+
+	@Override
+	public String toString() {
+		return "Producto [titulo=" + titulo + ", id=" + id + ", precio=" + precio + ", codigo=" + codigo + "]";
+	}
+	
+	//toString
+	//alt+shit+r
 	
 }
+
