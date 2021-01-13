@@ -6,6 +6,7 @@ public class Producto {
 	private Long id;
 	private Float precio;
 	private String codigo;
+	private Long tipoProducto;
 	
 	public Producto() {
 	
@@ -16,6 +17,14 @@ public class Producto {
 		this.id = id;
 		this.precio = precio;
 		this.codigo = codigo;
+	}
+	
+	public Producto(String titulo, Long id, Float precio, String codigo, Long tipoProducto) {
+		this.titulo = titulo;
+		this.id = id;
+		this.precio = precio;
+		this.codigo = codigo;
+		this.tipoProducto = tipoProducto;
 	}
 	
 	public Producto(String titulo,Float precio, String codigo) {
@@ -58,11 +67,21 @@ public class Producto {
 
 	@Override
 	public String toString() {
-		return "Producto [titulo=" + titulo + ", id=" + id + ", precio=" + precio + ", codigo=" + codigo + "]";
+		return "Producto [titulo=" + titulo + ", id=" + id + ", precio=" + precio + ", codigo=" + codigo
+				+ ", tipoProducto=" + tipoProducto + "]";
+	}
+
+	public Long getTipoProducto() {
+		if(tipoProducto == null) {
+			tipoProducto = 1l;
+		}
+		return tipoProducto;
+	}
+
+	public void setTipoProducto(Long tipoProducto) {
+		this.tipoProducto = tipoProducto;
 	}
 	
-	//toString
-	//alt+shit+r
 	
 }
 

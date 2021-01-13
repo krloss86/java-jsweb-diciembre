@@ -12,6 +12,7 @@ import ar.com.educacionit.domain.Producto;
 import ar.com.educacionit.exceptions.DuplicatedExceptions;
 import ar.com.educacionit.exceptions.GenericException;
 import ar.com.educacionit.exceptions.MISQLException;
+import ar.com.educacionit.exceptions.NonExistsExceptions;
 
 public class ProductoDAOImpl implements ProductoDAO {
 
@@ -90,6 +91,55 @@ public class ProductoDAOImpl implements ProductoDAO {
 		}
 		
 		return productos;
+	}
+
+	@Override
+	public Producto update(Producto producto) throws DuplicatedExceptions, GenericException {
+		String sql = "UPDATE productos SET titulo='"+producto.getTitulo()+"', precio='"+producto.getPrecio()+"', tipo_producto='"+producto.getTipoProducto()+"' WHERE  id="+producto.getId()+"";
+		
+		try (java.sql.Connection con = AdministradorDeConexiones.obtenerConexion()) {
+			
+			//sql
+			Statement st = con.createStatement();
+					
+			st.executeUpdate(sql);
+			
+		}catch (Exception e) {
+			throw new GenericException("No se ha podido obtener la lista de productos", e);
+		}
+		
+		return producto;
+	}
+
+	@Override
+	public Producto getByCodigo(String codigo) throws NonExistsExceptions, GenericException {
+		Producto producto;
+		
+		//try-catch with resources
+		try (java.sql.Connection con = AdministradorDeConexiones.obtenerConexion()) {
+						
+			//sql
+			Statement st = con.createStatement();
+			
+			//obtengo los resultados
+			ResultSet rs = st.executeQuery("SELECT * FROM productos where codigo = '" + codigo + "'");
+			
+			if(rs.next()) {
+				Long id = rs.getLong(1);
+				String titulo = rs.getString(2);
+				Float precio = rs.getFloat(3);
+				String codigoAux = rs.getString(4);
+				Long tipoProducto = rs.getLong(5);
+				
+				producto = new Producto(titulo, id, precio, codigoAux, tipoProducto);
+			}else {
+				throw new NonExistsExceptions("EL producto codigo:" + codigo + " No existe");
+			}
+		}catch (Exception e) {
+			throw new GenericException("No se ha podido obtener la lista de productos", e);
+		}
+		
+		return producto;
 	}
 
 	
