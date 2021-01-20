@@ -33,6 +33,13 @@ public class Producto {
 		this.codigo = codigo;
 	}
 
+	public Producto(String titulo, Float precio, String codigo, Long tipoProducto) {
+		this.titulo = titulo;
+		this.precio = precio;
+		this.codigo = codigo;
+		this.tipoProducto = tipoProducto;
+	}
+
 	public String getTitulo() {
 		return titulo;
 	}

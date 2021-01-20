@@ -17,4 +17,6 @@ public interface ProductoDAO {
 	public Producto update(Producto producto) throws DuplicatedExceptions, GenericException;
 
 	public Producto getByCodigo(String codigo) throws NonExistsExceptions, GenericException;
+	
+	public Producto delete(String codigo) throws NonExistsExceptions, GenericException;
 }

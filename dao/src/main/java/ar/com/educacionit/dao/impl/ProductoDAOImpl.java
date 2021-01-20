@@ -1,6 +1,9 @@
 package ar.com.educacionit.dao.impl;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -25,39 +28,38 @@ public class ProductoDAOImpl implements ProductoDAO {
 	@Override
 	public Producto insert(Producto producto) throws DuplicatedExceptions, GenericException {
 		
-		//generic
-		if(producto == null) {
-			throw new GenericException("EL producto es nulo, no se puede crear en db", null);
-		}
-		
-		//INVENTANDO UN CASO PARA LANZAR UNA DUPLICATED
-		if(producto.getCodigo().equals("abc123")) {
-			throw new DuplicatedExceptions("El codigo abc123 ya existe",null);
-		}
-		
-		//sql insert into productos ....
-		
-		try {
-			connection.abrir();
+		try (java.sql.Connection connection = AdministradorDeConexiones.obtenerConexion()) {
+
+			//sql grabar productos
+												// string   float	string 	long	             1  2  3  4
+			String  sql = "INSERT INTO productos (titulo, precio, codigo, tipo_producto) VALUES (? , ? , ? , ?)";
 			
-			connection.ejecutarSql("insert into producto ");
+			PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			
-			Producto productoNuevo = new Producto(producto.getTitulo(), 
-					new Long(1), 
-					producto.getPrecio(), 
-					producto.getCodigo());
+			//seteo EN ORDEN los parametros asociados
+			statement.setString(1, producto.getTitulo());
+			statement.setFloat(2, producto.getPrecio());
+			statement.setString(3, producto.getCodigo());
+			statement.setLong(4, producto.getTipoProducto());
 			
-			return productoNuevo;
-		}catch (MISQLException mie) {
-			throw new GenericException("Error en proceso de crecion", mie);
-		} finally {
-			try {
-				//jdbc
-				connection.cerrar();
-			} catch (MISQLException mie) {
-				throw new RuntimeException(mie.getMessage()); 
-			}			
-		}
+			statement.execute();
+			ResultSet resultSet = statement.getGeneratedKeys();
+			
+			if(resultSet.next()) {
+				Long idGeneradoEnLaDB = resultSet.getLong(1);
+				
+				producto.setId(idGeneradoEnLaDB);
+			}
+			
+			//connection.commit();
+			
+			return producto;			
+		} catch (SQLException e) {
+			if(e instanceof SQLIntegrityConstraintViolationException) {
+				throw new GenericException("No se ha podido crear el producto, producto duplicado", e);	
+			}
+			throw new GenericException("No se ha podido crear el producto", e);
+		}		
 		
 	}
 
@@ -70,10 +72,10 @@ public class ProductoDAOImpl implements ProductoDAO {
 		try (java.sql.Connection con = AdministradorDeConexiones.obtenerConexion()) {
 						
 			//sql
-			Statement st = con.createStatement();
+			PreparedStatement st = con.prepareStatement("SELECT * FROM productos");
 			
 			//obtengo los resultados
-			ResultSet rs = st.executeQuery("SELECT * FROM productos");
+			ResultSet rs = st.executeQuery();
 			
 			while(rs.next()) {
 				Long id = rs.getLong(1);
@@ -82,7 +84,7 @@ public class ProductoDAOImpl implements ProductoDAO {
 				String codigo = rs.getString(4);
 				Long tipoProductgo = rs.getLong(5);
 				
-				Producto producto = new Producto(titulo, id, precio, codigo);
+				Producto producto = new Producto(titulo, id, precio, codigo, tipoProductgo);
 				productos.add(producto);
 				//agregar a una lista o vector!!!
 			}			
@@ -140,6 +142,12 @@ public class ProductoDAOImpl implements ProductoDAO {
 		}
 		
 		return producto;
+	}
+
+	@Override
+	public Producto delete(String codigo) throws NonExistsExceptions, GenericException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

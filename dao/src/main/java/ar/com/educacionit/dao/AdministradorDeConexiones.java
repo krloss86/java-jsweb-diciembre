@@ -10,7 +10,7 @@ public class AdministradorDeConexiones {
 	public static Connection obtenerConexion() throws GenericException {
 		
 		//driver
-		String driver = "com.mysql.jdbc.Driver";
+		String driver = "com.mysql.cj.jdbc.Driver";
 		
 		String dbConnectionString = "jdbc:mysql://127.0.1:3306/jsweb-diciembre?serverTimezone=UTC";
 		
