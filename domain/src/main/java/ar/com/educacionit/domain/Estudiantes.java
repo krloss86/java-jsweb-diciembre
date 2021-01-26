@@ -1,11 +1,11 @@
 package ar.com.educacionit.domain;
 
-public class Estudiante {
+public class Estudiantes {
 
-	private Long id;
+	private Integer id;
 	private String nombre;
 	private String apellido;
-	private Long dni;
+	private Integer dni;
 	
 	//alt+shift+s
 	/**
@@ -13,23 +13,27 @@ public class Estudiante {
 	 * @param nombre
 	 * @param apellido
 	 */
-	public Estudiante(Long id, String nombre, String apellido, Long dni) {
+	public Estudiantes(Integer id, String nombre, String apellido, Integer dni) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
 	}
-	public Estudiante(Long id, String nombre, String apellido) {
+	public Estudiantes(Integer id, String nombre, String apellido) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 	}
+	
+	public Estudiantes() {
+		
+	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -49,11 +53,11 @@ public class Estudiante {
 		this.apellido = apellido;
 	}
 
-	public Long getDni() {
+	public Integer getDni() {
 		return dni;
 	}
 
-	public void setDni(Long dni) {
+	public void setDni(Integer dni) {
 		this.dni = dni;
 	}
 	@Override

@@ -9,11 +9,16 @@ import java.util.Collection;
 
 import ar.com.educacionit.dao.AdministradorDeConexiones;
 import ar.com.educacionit.dao.EstudianteDao;
-import ar.com.educacionit.domain.Estudiante;
+import ar.com.educacionit.dao.GenericDao;
+import ar.com.educacionit.domain.Estudiantes;
 import ar.com.educacionit.exceptions.GenericException;
 
-public class EstudianteDaoJdbcImpl implements EstudianteDao {
+public class EstudianteDaoJdbcImpl extends GenericDao<Estudiantes> implements EstudianteDao {
 
+	public EstudianteDaoJdbcImpl() {
+		super(Estudiantes.class);
+	}
+	/*
 	@Override
 	public Estudiante getOne(Long id) throws GenericException {
 		
@@ -37,11 +42,12 @@ public class EstudianteDaoJdbcImpl implements EstudianteDao {
 		
 		return estudiante;
 	}
-
+	 */
+	
 	@Override
-	public Collection<Estudiante> findAll() throws GenericException {
+	public Collection<Estudiantes> findAll() throws GenericException {
 		
-		Collection<Estudiante> estudiantes = new ArrayList<Estudiante>();
+		Collection<Estudiantes> estudiantes = new ArrayList<Estudiantes>();
 		
 		try (Connection con = AdministradorDeConexiones.obtenerConexion()) {
 		
@@ -59,14 +65,14 @@ public class EstudianteDaoJdbcImpl implements EstudianteDao {
 		return estudiantes;
 	}
 
-	private Estudiante buildEstudiante(ResultSet rs) throws SQLException {
-		Estudiante estudiante;
-		Long _id = rs.getLong(1);
-		Long dni = rs.getLong(2);
+	private Estudiantes buildEstudiante(ResultSet rs) throws SQLException {
+		Estudiantes estudiante;
+		Integer _id = rs.getInt(1);
+		Integer dni = rs.getInt(2);
 		String nombre = rs.getString(3);
 		String apellido = rs.getString(4);
 		
-		estudiante = new Estudiante(_id, nombre, apellido, dni);
+		estudiante = new Estudiantes(_id, nombre, apellido, dni);
 		return estudiante;
 	}
 }

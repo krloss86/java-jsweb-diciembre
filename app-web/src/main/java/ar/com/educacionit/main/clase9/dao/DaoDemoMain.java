@@ -1,6 +1,6 @@
 package ar.com.educacionit.main.clase9.dao;
 
-import ar.com.educacionit.domain.Estudiante;
+import ar.com.educacionit.domain.Estudiantes;
 import ar.com.educacionit.exceptions.ServiceException;
 import ar.com.educacionit.service.EstudianteService;
 import ar.com.educacionit.service.EstudianteServiceImpl;
@@ -15,7 +15,7 @@ public class DaoDemoMain {
 		
 		EstudianteService dao = new EstudianteServiceImpl();
 
-		Estudiante e = dao.obtenerEstudiante(idEstudiante);
+		Estudiantes e = dao.obtenerEstudiante(idEstudiante);
 		
 		System.out.println(e);
 	}
