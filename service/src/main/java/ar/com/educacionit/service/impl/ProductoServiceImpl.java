@@ -42,12 +42,6 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public Producto deleteProducto(Long id) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Producto updateProducto(Producto producto) throws ServiceException {		
 		try {
 			return this.productoDao.update(producto);
@@ -61,6 +55,26 @@ public class ProductoServiceImpl implements ProductoService {
 		try {
 			return this.productoDao.getByCodigo(codigo);
 		} catch (NonExistsExceptions | GenericException e) {
+			throw new ServiceException("No se ha obtener el listado de productos", e);
+		}
+	}
+
+	@Override
+	public Producto deleteProducto(String codigo) throws ServiceException {
+		try {
+			return productoDao.delete(codigo);
+		} catch (NonExistsExceptions e) {
+			throw new ServiceException("No existe el producto con codigo: "+ codigo, e);
+		} catch (GenericException e) {
+			throw new ServiceException("No se ha podido eliminar el producto codigo: "+codigo+", error inesperado", e);
+		}
+	}
+
+	@Override
+	public Collection<Producto> buscarProducto(String claveBusqueda) throws ServiceException {		
+		try {
+			return this.productoDao.buscar(claveBusqueda);
+		} catch (GenericException e) {
 			throw new ServiceException("No se ha obtener el listado de productos", e);
 		}
 	}

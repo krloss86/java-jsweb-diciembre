@@ -1,29 +1,22 @@
 package ar.com.educacionit.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import ar.com.educacionit.dao.AdministradorDeConexiones;
 import ar.com.educacionit.dao.ProductoDAO;
-import ar.com.educacionit.dao.connection.Connection;
-import ar.com.educacionit.dao.connection.ConnectionUtils;
 import ar.com.educacionit.domain.Producto;
 import ar.com.educacionit.exceptions.DuplicatedExceptions;
 import ar.com.educacionit.exceptions.GenericException;
-import ar.com.educacionit.exceptions.MISQLException;
 import ar.com.educacionit.exceptions.NonExistsExceptions;
 
 public class ProductoDAOImpl implements ProductoDAO {
-
-	private Connection connection;
-	
-	public ProductoDAOImpl() {
-		this.connection = new ConnectionUtils("MYSQL","root","root").getConnection();
-	}
 	
 	@Override
 	public Producto insert(Producto producto) throws DuplicatedExceptions, GenericException {
@@ -146,8 +139,90 @@ public class ProductoDAOImpl implements ProductoDAO {
 
 	@Override
 	public Producto delete(String codigo) throws NonExistsExceptions, GenericException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Producto producto = this.getByCodigo(codigo);
+		if(producto == null) {
+			throw new NonExistsExceptions("No se ha encontrado el producto con codigi:" + codigo);
+		}
+		
+		String sql = "delete from productos where codigo = ?";
+		
+		java.sql.Connection connection = AdministradorDeConexiones.obtenerConexion();
+		
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, codigo);
+		} catch (SQLException e) {
+			throw new GenericException("No se ha podido crear el Statement", e);
+		}
+		
+		try {
+			int resultado = statement.executeUpdate();
+			if(resultado < 0) {
+				throw new GenericException("No se ha podido eliminar el producto codigo:" + codigo,null);
+			}			
+		} catch (SQLException e) {
+			throw new GenericException("No se ha podido eliminar el producto id:" + codigo, e);
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new GenericException("NO se pudo cerrar la conexion, verfique en la DB las conexiones", e);
+			}
+		}
+		
+		return producto;
+	}
+
+	@Override
+	public Collection<Producto> buscar(String claveBusqueda) throws GenericException {
+		
+		Connection connection = AdministradorDeConexiones.obtenerConexion();
+		
+		String sql ="SELECT * FROM productos where upper(titulo) like '%"+claveBusqueda.toUpperCase()+"%'";
+		
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement(sql);
+		} catch (SQLException e) {
+			throw new GenericException("No se ha podido crear el Statement", e);
+		}
+
+		try {
+			ResultSet resultSet = statement.executeQuery();
+			
+			Collection<Producto> productos = new ArrayList<Producto>();
+				
+			while(resultSet.next()) {
+				Producto producto = this.productoDesdeResultSet(resultSet);
+				productos.add(producto);
+			}
+
+			return productos;
+			
+		} catch (SQLException e) {
+			throw new GenericException("No se han podido obtener los productos", e);
+		} 
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new GenericException("NO se pudo cerrar la conexion, verfique en la DB las conexiones", e);
+			}
+		}
+	}
+
+	private Producto productoDesdeResultSet(ResultSet resultSet) throws SQLException {
+		Producto producto;
+		Long id = resultSet.getLong(1);
+		String titulo = resultSet.getString(2);
+		Float precio = resultSet.getFloat(3);
+		String codigoDB = resultSet.getString(4);
+		Long tipoProducto = resultSet.getLong(5); 
+		
+		producto = new Producto(titulo, id, precio, codigoDB, tipoProducto);
+		return producto;
 	}
 
 	

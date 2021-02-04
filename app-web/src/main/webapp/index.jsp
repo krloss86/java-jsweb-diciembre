@@ -1,16 +1,10 @@
 <html>
+
+	<head>
+		<!-- agregamos css de boostrap -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	</head>
 	<body>
-		<ul>
-			<li>
-				<a href="<%=request.getContextPath()%>/jsp/login.jsp">
-					IR a login
-				</a>
-			</li>
-			<li>
-				<a href="<%=request.getContextPath()%>/jsp/producto.jsp">
-					Alta Producto
-				</a>
-			</li>
-		</ul>
+		<%@include file="./jsp/navbar.jsp" %>
 	</body>
 </html>

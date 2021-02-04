@@ -4,4 +4,16 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <!-- 
+  <servlet>
+  	<servlet-name>NuevoProductoServlet</servlet-name>
+  	<display-name>NuevoProducto</display-name>
+  	<description>Servlet encargado de crear nuevos productos</description>
+  	<servlet-class>ar.com.educacionit.servlets.NuevoProductoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>NuevoProductoServlet</servlet-name>
+  	<url-pattern>/NuevoProductoServlet</url-pattern>
+  </servlet-mapping>
+  -->
 </web-app>

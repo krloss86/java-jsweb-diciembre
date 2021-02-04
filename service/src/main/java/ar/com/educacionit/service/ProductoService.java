@@ -11,9 +11,11 @@ public interface ProductoService {
 	
 	public Collection<Producto> obtenerProductos() throws ServiceException;
 	
-	public Producto deleteProducto(Long id) throws ServiceException;
+	public Producto deleteProducto(String codigo) throws ServiceException;
 	
 	public Producto updateProducto(Producto producto) throws ServiceException;
 	
 	public Producto obtenerProducto(String codigo) throws ServiceException;
+
+	public Collection<Producto> buscarProducto(String claveBusqueda) throws ServiceException;
 }
