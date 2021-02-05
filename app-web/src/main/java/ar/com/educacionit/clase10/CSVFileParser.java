@@ -53,7 +53,13 @@ public class CSVFileParser extends FileBase implements Parseable<Collection<Prod
 						//2 > codigo
 						//3 > precio
 						//4 > tipo
-						Long id = Long.parseLong(split[0]);
+						Long id;
+						if(split[0]!=null && !split[0].trim().equals("")) {
+							id = Long.parseLong(split[0]);
+						}else {
+							id = null;
+						}
+						
 						String titulo = split[1];
 						String codigo = split[2];
 						Float precio = Float.parseFloat(split[3]);

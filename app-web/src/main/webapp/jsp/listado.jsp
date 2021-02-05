@@ -51,7 +51,7 @@
 						      <td> <%= producto.getPrecio() %> </td>
 						      <td> <%=producto.getTipoProducto() %></td>
 						      <td> 
-<%-- 									<a href="<%=request.getContextPath() %>/CargarParaEditarProductoServlet?id=<%=producto.getId() %>" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Editar</a> --%>
+									<a href="<%=request.getContextPath() %>/CargarParaEditarProductoServlet?codigo=<%=producto.getCodigo() %>" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Editar</a>
 									<button onclick="eliminarProducto('<%=producto.getCodigo()%>')" type="button" class="btn btn-danger">Eliminar</button>
 						      </td>
 						    </tr>
