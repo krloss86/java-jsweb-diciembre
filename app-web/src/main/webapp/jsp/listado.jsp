@@ -57,6 +57,12 @@
 						    </tr>
 					    <%} %>
 					  </tbody>
+					  <tfoot>
+					  	<tr>
+					  		<td colspan="3">&nbsp;</td>
+					  		<td><%=request.getAttribute("sumaTotal") %> </td>					  		
+					  	</tr>
+					  </tfoot>
 					</table>						
 				</div>
 			</div>

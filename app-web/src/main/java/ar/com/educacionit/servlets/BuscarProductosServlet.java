@@ -30,6 +30,14 @@ public class BuscarProductosServlet extends HttpServlet {
 		
 		try {
 			Collection<Producto> listado = this.ps.buscarProducto(claveBusqueda);
+			
+			//sumar el total
+			Float precioTotal = listado.stream()
+			.map(x -> x.getPrecio())
+			.reduce(0f, (x,y) -> x+y);
+			
+			req.setAttribute("sumaTotal", precioTotal);
+			
 			req.setAttribute("listado", listado);
 		} catch (ServiceException e) {
 			req.setAttribute("error", e.getCause().getMessage());
